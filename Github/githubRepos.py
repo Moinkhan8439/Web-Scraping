@@ -4,15 +4,15 @@ import csv
 
 # Provide the  url input here
 urls=list(map(str,input('Please enter the url separated by a comma : \n ').split(',')))
-with open('Github/repos.csv','w',newline='') as csv_file:
+with open('repos.csv','w',newline='') as csv_file:
     csv_writer=csv.writer(csv_file)
     csv_writer.writerow(['Owner','Name','Link','Privacy','Language','Last Updated'])
     for url in urls: 
         print(url)
-        owner=url.split('/')[3].split('?')[0]
+        owner=url.strip().split('/')[3].split('?')[0]
 
-        doc_tmplt=requests.get(url=url).content
-
+        doc_tmplt=requests.get(url+'?tab=repositories').content
+        
         soup=BeautifulSoup(doc_tmplt,'html.parser')
 
         repos=soup.find('div',id='user-repositories-list')
